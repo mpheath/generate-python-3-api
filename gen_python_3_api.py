@@ -178,13 +178,30 @@ settings['include_keywords'] = 1
 
 # Include modules not listed by pydoc.
 settings['include_modules_fullname'] = [
+    'collections.abc',
     'concurrent.futures',
+    'ctypes.util', 'ctypes.wintypes',
     'distutils.core',
+    'email.base64mime', 'email.charset',
+    'email.contentmanager', 'email.encoders',
+    'email.errors', 'email.feedparser',
+    'email.generator', 'email.header',
+    'email.headerregistry', 'email.iterators',
+    'email.message', 'email.mime',
+    'email.mime.application', 'email.mime.audio',
+    'email.mime.base', 'email.mime.image',
+    'email.mime.message', 'email.mime.multipart',
+    'email.mime.nonmultipart', 'email.mime.text',
+    'email.parser', 'email.policy',
+    'email.quoprimime', 'email.utils',
     'html.entities', 'html.parser',
     'http.client', 'http.server',
     'http.cookies', 'http.cookiejar',
     'importlib.abc', 'importlib.resources',
     'importlib.machinery', 'importlib.util',
+    'multiprocessing.connection', 'multiprocessing.dummy',
+    'multiprocessing.managers', 'multiprocessing.pool',
+    'multiprocessing.shared_memory', 'multiprocessing.sharedctypes',
     'os.path',
     'tkinter.colorchooser', 'tkinter.commondialog',
     'tkinter.constants', 'tkinter.dialog',
@@ -200,9 +217,10 @@ settings['include_modules_fullname'] = [
     'wsgiref.validate',
     'xml.dom', 'xml.dom.minidom',
     'xml.dom.pulldom', 'xml.etree.ElementTree',
-    'xml.parsers.expat', 'xml.sax',
-    'xml.sax.handler', 'xml.sax.saxutils',
-    'xml.sax.xmlreader',
+    'xml.parsers.expat', 'xml.parsers.expat.errors',
+    'xml.parsers.expat.model',
+    'xml.sax', 'xml.sax.handler',
+    'xml.sax.saxutils', 'xml.sax.xmlreader',
     'xmlrpc.client', 'xmlrpc.server']
 
 # Include module names that need to be imported before others.
@@ -1351,7 +1369,7 @@ class Calltips():
                 doc = doc.strip()
 
                 # These repetitive doc strings seem to be inherited and unwanted.
-                if module == 'ctypes':
+                if module in ('ctypes', 'ctypes.wintypes'):
                     if doc == 'XXX to be provided':
                         return ''
                 elif module == 'typing':
