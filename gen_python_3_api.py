@@ -2,7 +2,7 @@
 # Author : Michael Heath
 # Licence: GPLv3
 # Python : 3.2 to 3.8 or later
-# Version: 1.0
+# Version: 1.1
 
 r'''Make files for SciTE and Notepad++ for autocomplete and styling.
 
@@ -1510,8 +1510,14 @@ class Calltips():
         def _get_signatures(module, member, member_object):
             '''Get the signatures of a callable object.'''
 
+            # No parameters to match the helpfile.
             if module == 'logging' and member == 'shutdown':
                 return [[]]
+
+            # Avoid invalid signature_object type with Python 3.3.
+            if module == 'unittest.mock' and member == 'call':
+                if sys.version_info < (3, 4):
+                    return [['*args', '**kwargs']]
 
             # Get the objects signature.
             try:
