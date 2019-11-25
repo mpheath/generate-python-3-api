@@ -2,7 +2,7 @@
 # Author : Michael Heath
 # Licence: GPLv3
 # Python : 3.2 to 3.8 or later
-# Version: 1.1
+# Version: 1.2
 
 r'''Make files for SciTE and Notepad++ for autocomplete and styling.
 
@@ -140,9 +140,8 @@ settings['exclude_members_startswith_double_underscore'] = 1
 settings['exclude_members_startswith_single_underscore'] = 0
 
 # Exclude members of modules that comply with _ as being private members.
-# If define_members_by_all_attribute = 0, list will be empty.
 # These modules may not have set __all__ or some other reason for wanting this.
-# The setting will change to [] if define_members_by_all_attribute=1.
+# The setting will change to [] if define_members_by_all_attribute=0.
 settings['exclude_members_startswith_single_underscore_by_module'] = [
     'abc', 'array', 'ast', 'asyncore', 'atexit', 'ctypes', 'encodings',
     'faulthandler', 'hmac', 'inspect', 'ipaddress', 'itertools',
