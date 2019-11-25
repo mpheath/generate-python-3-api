@@ -101,8 +101,8 @@ settings['callable_tag'] = 2
 # Calltip use escapes. 0 or 1.
 # Only applies to python3.api used in SciTE.
 # Set calltip.python.use.escapes=1 in SciTE to enable escapes in SciTE.
-# If doc_line_count is -1 or > 1, the setting will change to 1.
-# If escape_long_signatures is 1, the setting will change to 1.
+# The setting will change to 1 if doc_line_count is -1 or > 1.
+# The setting will change to 1 if escape_long_signatures is 1.
 settings['calltip_use_escapes'] = 0
 
 # Set the width which will be approximately to size for the calltip.
@@ -119,8 +119,8 @@ settings['change_to_pydoc_dir'] = 1
 settings['define_members_by_all_attribute'] = 1
 
 # Doc line count. -1, 0, 1 or > 1.
-# If line count is > 1, escaped doc lines are inserted into the calltip.
-# If line count is -1, escaped doc lines up to \n\n, else all of doc.
+# Escaped doc lines are inserted into the calltip if line count is > 1.
+# Escaped doc lines up to \n\n, else all of doc, if line count is -1.
 # Set doc_compact to 1 if empty lines not wanted. 0 or 1.
 settings['doc_line_count'] = 1
 settings['doc_compact'] = 0
@@ -142,15 +142,13 @@ settings['exclude_members_startswith_single_underscore'] = 0
 # Exclude members of modules that comply with _ as being private members.
 # If define_members_by_all_attribute = 0, list will be empty.
 # These modules may not have set __all__ or some other reason for wanting this.
+# The setting will change to [] if define_members_by_all_attribute=1.
 settings['exclude_members_startswith_single_underscore_by_module'] = [
     'abc', 'array', 'ast', 'asyncore', 'atexit', 'ctypes', 'encodings',
     'faulthandler', 'hmac', 'inspect', 'ipaddress', 'itertools',
     'msilib', 'nt', 'os', 'platform', 'selectors', 'signal',
     'site', 'ssl', 'stat', 'sunau', 'symbol', 'time', 'tkinter',
     'tracemalloc', 'uuid', 'zipimport']
-
-if not settings['define_members_by_all_attribute']:
-    settings['exclude_members_startswith_single_underscore_by_module'] = []
 
 # Exclude modules deprecated or unwanted.
 settings['exclude_modules_fullname'] = [
@@ -1202,23 +1200,28 @@ class Calltips():
             # Sanity checks.
             if not self.settings['doc_line_count']:
                 if self.settings['doc_type']:
-                    print('  changing doc_type=0 for doc_line_count')
+                    print('  changing doc_type=0')
                     self.settings['doc_type'] = 0
 
             if not self.settings['doc_type']:
                 if self.settings['doc_line_count']:
-                    print('  changing doc_line_count=0 for doc_type')
+                    print('  changing doc_line_count=0')
                     self.settings['doc_line_count'] = 0
 
             if not self.settings['calltip_use_escapes']:
                 if self.settings['doc_line_count'] not in (0, 1):
-                    print('  changing calltip_use_escapes=1 for doc_line_count')
+                    print('  changing calltip_use_escapes=1')
                     self.settings['calltip_use_escapes'] = 1
 
             if not self.settings['calltip_use_escapes']:
                 if self.settings['escape_long_signatures']:
-                    print('  changing calltip_use_escapes=1 for escape_long_signatures')
+                    print('  changing calltip_use_escapes=1')
                     self.settings['calltip_use_escapes'] = 1
+
+            if not self.settings['define_members_by_all_attribute']:
+                if self.settings['exclude_members_startswith_single_underscore_by_module']:
+                    print('  changing exclude_members_startswith_single_underscore_by_module=[]')
+                    self.settings['exclude_members_startswith_single_underscore_by_module'] = []
         else:
             print('  default')
 
