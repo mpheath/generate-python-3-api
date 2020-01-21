@@ -1890,8 +1890,18 @@ class Calltips():
         if keywordclasses is None:
             keywordclasses = self.keywordclasses
 
+        # Build a comment header to describe the generator details.
+        header = ('# Generator: gen_python_3_api.py\n'
+                  '# Platform : {}\n'
+                  '# Python   : {}.{}.{} {}').format(sys.platform,
+                                                     sys.version_info[0],
+                                                     sys.version_info[1],
+                                                     sys.version_info[2],
+                                                     sys.version_info[3])
         # Write keywords to a property file.
         with open(file, 'w', encoding='utf-8') as w:
+            w.write(header + '\n\n')
+
             for index, keywordclass in enumerate(keywordclasses):
                 w.write('keywordclass{}.python3=\\\n'.format(index))
 
