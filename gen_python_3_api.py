@@ -193,6 +193,7 @@ settings['include_modules_fullname'] = [
     'email.mime.nonmultipart', 'email.mime.text',
     'email.parser', 'email.policy',
     'email.quoprimime', 'email.utils',
+    'encodings.idna',
     'html.entities', 'html.parser',
     'http.client', 'http.cookiejar',
     'http.cookies', 'http.server',
@@ -221,6 +222,12 @@ settings['include_modules_fullname'] = [
     'xml.sax', 'xml.sax.handler',
     'xml.sax.saxutils', 'xml.sax.xmlreader',
     'xmlrpc.client', 'xmlrpc.server']
+
+if sys.platform != 'win32':
+
+    # Include modules fullname for unix.
+    settings['include_modules_fullname'].extend([
+        'curses.ascii', 'curses.panel', 'curses.textpad'])
 
 # Include module names that need to be imported before others.
 # This might be useful for modules that require other modules to be imported first.
@@ -652,6 +659,11 @@ custom_signatures = {
         ],
         'use_env': [
             ['flag']
+        ]
+    },
+    'curses.panel': {
+        'new_panel': [
+            ['win']
         ]
     },
     'datetime': {
