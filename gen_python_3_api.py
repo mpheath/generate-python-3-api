@@ -1738,6 +1738,9 @@ class Calltips():
               '  passed {pass}\n'
               '  failed {fail}'.format_map(import_stats))
 
+        # Reduce common keywords False, None and True.
+        keywordclass1 -= keywordclass0
+
         # Sort the sequences into lists.
         self.api = sorted(api)
         self.keywordclasses = (sorted(keywordclass0),
