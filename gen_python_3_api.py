@@ -1476,17 +1476,18 @@ class Calltips():
             else:
                 doc = inspect.getdoc(member_object)
 
-                dox = 'dir: {}.'.format(', '.join([x for x in dir(member_object)
-                                                     if not x.startswith('_')]))
-                if dox == 'dir: .':
-                    dox = ''
+                if self.settings['doc_type'] > 1:
+                    dox = 'dir: {}.'.format(', '.join([x for x in dir(member_object)
+                                                         if not x.startswith('_')]))
+                    if dox == 'dir: .':
+                        dox = ''
 
-                if self.settings['doc_type'] == 2:
-                    doc = doc or dox
-                elif self.settings['doc_type'] == 3:
-                    doc = dox or doc
-                elif self.settings['doc_type'] == 4:
-                    doc = dox
+                    if self.settings['doc_type'] == 2:
+                        doc = doc or dox
+                    elif self.settings['doc_type'] == 3:
+                        doc = dox or doc
+                    elif self.settings['doc_type'] == 4:
+                        doc = dox
 
                 doc = _filter_doc(doc)
 
