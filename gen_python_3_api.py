@@ -149,9 +149,9 @@ settings['exclude_members_startswith_single_underscore_by_module'] = [
     'site', 'ssl', 'stat', 'sunau', 'symbol', 'time', 'tkinter',
     'tracemalloc', 'uuid', 'zipimport']
 
-# Exclude modules deprecated or unwanted.
+# Exclude modules that are unwanted.
 settings['exclude_modules_fullname'] = [
-    'antigravity', 'formatter', 'imp', 'macpath', 'this']
+    'antigravity', 'pydoc_data', 'this']
 
 settings['exclude_modules_startswith'] = ['_', 'gen_python_3_api']
 
