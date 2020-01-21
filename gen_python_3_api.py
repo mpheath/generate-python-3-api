@@ -2,7 +2,7 @@
 # Author : Michael Heath
 # Licence: GPLv3
 # Python : 3.2 to 3.8 or later
-# Version: 1.2
+# Version: 1.3
 
 r'''Make files for SciTE and Notepad++ for autocomplete and styling.
 
@@ -194,10 +194,10 @@ settings['include_modules_fullname'] = [
     'email.parser', 'email.policy',
     'email.quoprimime', 'email.utils',
     'html.entities', 'html.parser',
-    'http.client', 'http.server',
-    'http.cookies', 'http.cookiejar',
-    'importlib.abc', 'importlib.resources',
-    'importlib.machinery', 'importlib.util',
+    'http.client', 'http.cookiejar',
+    'http.cookies', 'http.server',
+    'importlib.abc', 'importlib.machinery',
+    'importlib.resources', 'importlib.util',
     'multiprocessing.connection', 'multiprocessing.dummy',
     'multiprocessing.managers', 'multiprocessing.pool',
     'multiprocessing.shared_memory', 'multiprocessing.sharedctypes',
@@ -661,7 +661,7 @@ custom_signatures = {
         'datetime': [
             ['year', 'month', 'day', 'hour=0', 'minute=0', 'second=0', 'microsecond=0', 'tzinfo=None', '*', 'fold=0']
         ],
-        'time' : [
+        'time': [
             ['hour=0', 'minute=0', 'second=0', 'microsecond=0', 'tzinfo=None', '*', 'fold=0']
         ],
         'timedelta': [
@@ -729,8 +729,8 @@ custom_signatures = {
             ['*iterables']
         ],
         'islice': [
-            ['iterable', 'stop'],
-            ['iterable', 'start', 'stop[', 'step]']
+            ['iterable', 'start', 'stop[', 'step]'],
+            ['iterable', 'stop']
         ],
         'product': [
             ['*iterables', 'repeat=1']
@@ -1210,6 +1210,7 @@ class Calltips():
 
         # Update settings.
         print('settings:')
+
         if isinstance(settings, dict):
             print('  updating')
             self.settings.update(settings)
@@ -1987,7 +1988,7 @@ class Calltips():
         root_string = xml.etree.ElementTree.tostring(root).decode()
 
         xml_string = (xml.dom.minidom.parseString(root_string)
-                      .toprettyxml(indent="\t", encoding='utf-8').decode())
+                      .toprettyxml(indent='\t', encoding='utf-8').decode())
 
         xml_string = xml_string.replace('[INSERT_NEWLINE]', '&#x0a;')
 
