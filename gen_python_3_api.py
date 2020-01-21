@@ -1952,7 +1952,7 @@ class Calltips():
 
         for items in self.api:
             if len(items) == 1:
-                name, signatures, tag, doc = items[0], '', '', ''
+                name, signatures, tag, doc = items[0], [], '', ''
             else:
                 name, signatures, tag, doc = items
                 doc = doc.replace('\n', '[INSERT_NEWLINE]')
@@ -1976,27 +1976,26 @@ class Calltips():
                        if signatures else {'name': name})
 
             # Add parameters into xml section.
-            if signatures:
-                for signature in signatures:
-                    if not signature and not doc:
-                        continue
+            for signature in signatures:
+                if not signature and not doc:
+                    continue
 
-                    length = len(name)
+                length = len(name)
 
-                    tree.start('Overload', {'descr': doc, 'retVal': ''})
+                tree.start('Overload', {'descr': doc, 'retVal': ''})
 
-                    for index, parameter in enumerate(signature):
-                        length += len(parameter) + 2
+                for index, parameter in enumerate(signature):
+                    length += len(parameter) + 2
 
-                        if index and self.settings['escape_long_signatures']:
-                            if length >= self.settings['calltip_width']:
-                                parameter = '[INSERT_NEWLINE]' + indent + parameter
-                                length = 0
+                    if index and self.settings['escape_long_signatures']:
+                        if length >= self.settings['calltip_width']:
+                            parameter = '[INSERT_NEWLINE]' + indent + parameter
+                            length = 0
 
-                        tree.start('Param', {'name': parameter})
-                        tree.end('Param')
+                    tree.start('Param', {'name': parameter})
+                    tree.end('Param')
 
-                    tree.end('Overload')
+                tree.end('Overload')
 
             tree.end('KeyWord')
 
