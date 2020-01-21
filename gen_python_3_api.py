@@ -1559,8 +1559,6 @@ class Calltips():
             last = ''
 
             for items in signature_object.parameters.items():
-                name = items[0]
-
                 if self.settings['unannotate_signatures']:
                     parameter_object = items[1].replace(annotation=inspect.Parameter.empty)
                 else:
