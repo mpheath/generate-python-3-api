@@ -1,8 +1,10 @@
 #! /usr/bin/env python3
 # Author : Michael Heath
+# Github : https://github.com/mpheath/generate-python-3-api
+# Home   : http://users.tpg.com.au/mpheath/gen_python_3_api
 # Licence: GPLv3
 # Python : 3.2 to 3.8 or later
-# Version: 1.3
+# Version: 1.4
 
 r'''Make files for SciTE and Notepad++ for autocomplete and styling.
 
@@ -1500,7 +1502,7 @@ class Calltips():
                 '''Get another level of members.'''
 
                 for member, member_object in members:
-                    if callable:
+                    if callable(member_object):
                         for submember, submember_object in inspect.getmembers(member_object):
 
                             # Exclude members that starts with underscores.

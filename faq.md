@@ -37,7 +37,7 @@ to search and find what is wanted.
 The more entries, the more burden put on the editor to handle.
 You can have the dunder methods by allowing members with double underscores.
 If you want to see many more entries, then try
-`settings['inspect_members_more']=1` to get files up to 150 MB in total.
+`settings['inspect_members_more']=1` to get much larger files.
 This will probably slow down the editor and your coding with the excessive
 amount of entries. The safe default is to be just enough entries.
 
