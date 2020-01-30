@@ -1501,6 +1501,8 @@ class Calltips():
             def _get_more_members(members):
                 '''Get another level of members.'''
 
+                more_members = []
+
                 for member, member_object in members:
                     if callable(member_object):
                         for submember, submember_object in inspect.getmembers(member_object):
@@ -1517,9 +1519,11 @@ class Calltips():
                             if inspect.ismodule(submember_object):
                                 continue
 
-                            yield [member + '.' + submember, submember_object]
+                            more_members.append([member + '.' + submember, submember_object])
 
-                    yield [member, member_object]
+                    more_members.append([member, member_object])
+
+                return more_members
 
             # Get the members.
             members = inspect.getmembers(module_object)
