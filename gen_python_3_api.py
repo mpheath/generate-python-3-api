@@ -1371,7 +1371,7 @@ class Calltips():
             else:
                 return ''
 
-        def _get_doc(module, member_object):
+        def _get_doc(module, member, member_object):
             '''Get the doc string.'''
 
             def _filter_doc(doc):
@@ -1382,11 +1382,21 @@ class Calltips():
 
                 doc = doc.strip()
 
+                # Fix formfeed and tab being spaces in Python 3.8.
+                if module == 'ast' and member == '_pad_whitespace':
+                    doc = doc.replace("'\f     '", "'\\f\\t'")
+
+                # Replace escape sequence with literal.
+                if '\f' in doc:
+                    doc = doc.replace('\f', '\\f')
+                    print(r'    info: Escape sequence \f replaced with \\f'
+                           ' in doc string of {}.{}'.format(module, member))
+
                 # These repetitive doc strings seem to be inherited and unwanted.
                 if module in ('ctypes', 'ctypes.wintypes'):
                     if doc == 'XXX to be provided':
                         return ''
-                elif module == 'typing':
+                elif module in ('importlib.resources', 'typing', 'typing.re'):
                     if doc.startswith('The central part of internal API.'):
                         return ''
 
@@ -1764,7 +1774,7 @@ class Calltips():
                     continue
 
                 # Get the doc string.
-                doc = _get_doc(module, member_object)
+                doc = _get_doc(module, member, member_object)
 
                 # Get the callable tag.
                 tag = _get_callable_tag(member_object)
