@@ -155,13 +155,18 @@ settings['exclude_members_startswith_single_underscore_by_module'] = [
 settings['exclude_modules_fullname'] = [
     'antigravity', 'pydoc_data', 'this']
 
-settings['exclude_modules_startswith'] = ['_', 'gen_python_3_api']
 
 if sys.platform == 'win32':
 
     # Exclude modules known to cause import problems on win32.
     settings['exclude_modules_fullname'].extend([
         'crypt', 'curses', 'pty', 'tty'])
+
+# Exclude modules starts with. Does not include submodules.
+settings['exclude_modules_startswith'] = ['gen_python_3_api']
+
+# Exclude modules starts with underscore. Includes submodules. 0 or 1.
+settings['exclude_modules_startswith_underscore'] = 1
 
 # Escape long signatures to calltip_width. 0 or 1.
 settings['escape_long_signatures'] = 0
@@ -1204,6 +1209,7 @@ class Calltips():
             'exclude_members_startswith_single_underscore_by_module': [],
             'exclude_modules_fullname': [],
             'exclude_modules_startswith': [],
+            'exclude_modules_startswith_underscore': 1,
             'escape_long_signatures': 0,
             'import_site': 0,
             'include_custom_signatures': 1,
@@ -1328,8 +1334,14 @@ class Calltips():
 
             # Exclude modules by starts with.
             for prefix in self.settings['exclude_modules_startswith']:
-                for item in sorted(modules):
+                for item in modules.copy():
                     if item.startswith(prefix):
+                        modules.remove(item)
+
+            # Exclude modules by starts with underscore.
+            if self.settings['exclude_modules_startswith_underscore']:
+                for item in modules.copy():
+                    if item.startswith('_'):
                         modules.remove(item)
 
         self.modules = sorted(modules)
@@ -1338,6 +1350,7 @@ class Calltips():
         for item in reversed(self.settings['include_modules_fullname_import_first']):
             if item in self.modules:
                 self.modules.remove(item)
+
             self.modules.insert(0, item)
 
         return self.modules
@@ -1657,6 +1670,17 @@ class Calltips():
 
                 if module.startswith(tuple(self.settings['exclude_modules_startswith'])):
                     continue
+
+                if self.settings['exclude_modules_startswith_underscore']:
+                    passed = True
+
+                    for item in module.split('.'):
+                        if item.startswith('_'):
+                            passed = False
+                            break
+
+                    if not passed:
+                        continue
 
                 modules.append([module, sys_modules[module]])
 
