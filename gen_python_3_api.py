@@ -1620,6 +1620,49 @@ class Calltips():
 
             return [signature]
 
+        def _import_modules(modules):
+            '''Import from a list of modules.'''
+
+            print('import:')
+
+            # Set the count of imports.
+            import_stats = {'fail': 0, 'pass': 0}
+
+            # Loop through the modules names.
+            for module in modules:
+                print(' ', module)
+
+                # Import the module.
+                if '.' in module:
+                    pkg, subpkg = module.split('.', 1)
+
+                try:
+                    if '.' in module:
+                        importlib.import_module('.' + subpkg, pkg)
+                    else:
+                        importlib.import_module(module)
+                except Exception as except_msg:
+                    print('    fail:', except_msg)
+                    import_stats['fail'] += 1
+                else:
+                    import_stats['pass'] += 1
+
+            # Get list of module names and module objects from copy of sys.modules.
+            sys_modules = sys.modules.copy()
+            modules = []
+
+            for module in sys_modules:
+                if module in self.settings['exclude_modules_fullname']:
+                    continue
+
+                if module.startswith(tuple(self.settings['exclude_modules_startswith'])):
+                    continue
+
+                modules.append([module, sys_modules[module]])
+
+            return sorted(modules), import_stats
+
+
         if modules is None:
             modules = self.modules
 
@@ -1646,10 +1689,10 @@ class Calltips():
         os_environ = str(os.environ)
         sys_executable = "'" + sys.executable.replace('\\', '\\\\') + "'"
 
-        # Set the count of imports.
-        import_stats = {'fail': 0, 'pass': 0}
+        # Get the modules, module objects and statistics.
+        modules, import_stats = _import_modules(modules)
 
-        print('processing:')
+        print('generate:')
 
         # Add keywords to api.
         if self.settings['include_keywords']:
@@ -1660,25 +1703,9 @@ class Calltips():
         for item in keyword.kwlist:
             keywordclass0.add(item)
 
-        # Loop through the modules to do many tasks.
-        for module in modules:
+        # Add to api and keywordclasses by inspecting the modules and members.
+        for module, module_object in modules:
             print(' ', module)
-
-            # Import the module.
-            if '.' in module:
-                pkg, subpkg = module.split('.', 1)
-
-            try:
-                if '.' in module:
-                    module_object = importlib.import_module('.' + subpkg, pkg)
-                else:
-                    module_object = importlib.import_module(module)
-            except Exception as except_msg:
-                print('    fail:', except_msg)
-                import_stats['fail'] += 1
-                continue
-            else:
-                import_stats['pass'] += 1
 
             # Add module to api.
             if self.settings['include_module_names']:
@@ -1740,10 +1767,6 @@ class Calltips():
 
                 _add_api([module + '.' + member, signatures, tag, doc])
 
-        print('imports:\n'
-              '  passed {pass}\n'
-              '  failed {fail}'.format_map(import_stats))
-
         # Reduce common keywords False, None and True.
         keywordclass1 -= keywordclass0
 
@@ -1752,6 +1775,11 @@ class Calltips():
         self.keywordclasses = (sorted(keywordclass0),
                                sorted(keywordclass1),
                                sorted(keywordclass2))
+
+        # Display statistics.
+        print('import_stats:\n'
+              '  passed {pass}\n'
+              '  failed {fail}'.format_map(import_stats))
 
         return self.api, self.keywordclasses
 
