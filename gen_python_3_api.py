@@ -153,8 +153,8 @@ settings['exclude_members_startswith_single_underscore_by_module'] = [
 
 # Exclude modules that are unwanted.
 settings['exclude_modules_fullname'] = [
-    'antigravity', 'pydoc_data', 'this']
-
+    'antigravity', 'pydoc_data', 'sqlite3.dbapi2',
+    'this', 'xml.etree.ElementPath']
 
 if sys.platform == 'win32':
 
