@@ -1805,6 +1805,17 @@ class Calltips():
               '  passed {pass}\n'
               '  failed {fail}'.format_map(import_stats))
 
+        print('generate_stats:\n'
+              '  {:<13} {}\n'
+              '  {:<13} {}\n'
+              '  {:<13} {}\n'
+              '  {:<13} {}\n'
+              '  {:<13} {}'.format('modules', len(modules),
+                                   'api', len(api),
+                                   'keywordclass0', len(keywordclass0),
+                                   'keywordclass1', len(keywordclass1),
+                                   'keywordclass2', len(keywordclass2)))
+
         return self.api, self.keywordclasses
 
 
