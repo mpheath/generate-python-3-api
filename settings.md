@@ -73,6 +73,10 @@ and parentheses. I consider this as a display bug not related to the script,
 as some editors show the bug while others do not. Still, the fix seems
 better than if it were not applied.
 
+SciTE may require the setting of `code.page=65001` to show the
+unicode parentheses and commas correct. On Windows, it might be setup as
+`code.page=0` and will try to display in the system codepage.
+
 Notepad++ uses XML files which can support newlines by use of an entity and
 the script inserts each parameter into separate XML tags, so the display of
 calltips is good. Change settings `calltip_use_escapes=1` to allow
