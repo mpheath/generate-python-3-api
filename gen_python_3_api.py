@@ -3,8 +3,8 @@
 # Github : https://github.com/mpheath/generate-python-3-api
 # Home   : http://users.tpg.com.au/mpheath/gen_python_3_api
 # Licence: GPLv3
-# Python : 3.2 to 3.8 or later
-# Version: 1.4
+# Python : 3.2 to 3.9 or later
+# Version: 1.5
 
 r'''Make files for SciTE and Notepad++ for autocomplete and styling.
 
@@ -296,8 +296,8 @@ settings['space_before_parameter_api'] = 1
 settings['space_before_doc_xml'] = 0
 settings['space_before_parameter_xml'] = 1
 
-# Remove annotations from signatures. 0 or 1.
-# Return annotation is always removed as usually end of signature in SciTE is ).
+# Remove parameter annotations from signatures. 0 or 1.
+# Return annotations are always removed as end of signature in SciTE is ).
 settings['unannotate_signatures'] = 0
 
 
@@ -751,6 +751,9 @@ custom_signatures = {
     'keyword': {
         'iskeyword': [
             ['s']
+        ],
+        'issoftkeyword': [
+            ['s']
         ]
     },
     'locale': {
@@ -977,6 +980,9 @@ custom_signatures = {
         ]
     },
     'struct': {
+        'Struct': [
+            ['format']
+        ],
         'pack': [
             ['format', 'v1', 'v2', '...']
         ],
@@ -1137,6 +1143,11 @@ custom_signatures = {
     'xml.parsers.expat': {
         'ParserCreate': [
             ['encoding=None', 'namespace_separator=None']
+        ]
+    },
+    'zoneinfo': {
+        'ZoneInfo': [
+            ['key']
         ]
     }}
 
