@@ -1668,31 +1668,34 @@ class Calltips():
                 else:
                     import_stats['pass'] += 1
 
-            # Get list of module names and module objects from copy of sys.modules.
-            sys_modules = sys.modules.copy()
+            # Get list of module names and module objects from sys.modules.
             modules = []
+            prefixes = tuple(self.settings['exclude_modules_startswith'])
 
-            for module in sys_modules:
+            for module in sorted(sys.modules):
+                if module in ('__main__', '__mp_main__'):
+                    continue
+
                 if module in self.settings['exclude_modules_fullname']:
                     continue
 
-                if module.startswith(tuple(self.settings['exclude_modules_startswith'])):
+                if module.startswith(prefixes):
                     continue
 
                 if self.settings['exclude_modules_startswith_underscore']:
-                    passed = True
+                    underscored = False
 
                     for item in module.split('.'):
                         if item.startswith('_'):
-                            passed = False
+                            underscored = True
                             break
 
-                    if not passed:
+                    if underscored:
                         continue
 
-                modules.append([module, sys_modules[module]])
+                modules.append([module, sys.modules[module]])
 
-            return sorted(modules), import_stats
+            return modules, import_stats
 
 
         if modules is None:
