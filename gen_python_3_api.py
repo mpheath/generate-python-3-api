@@ -1981,11 +1981,21 @@ class Calltips():
                                                      sys.version_info[1],
                                                      sys.version_info[2],
                                                      sys.version_info[3])
+
+        # Build section names to comment each keywordclass.
+        sections = ('keywords', 'builtins', 'modules')
+
+        if len(sections) != len(keywordclasses):
+            sections = None
+
         # Write keywords to a property file.
         with open(file, 'w', encoding='utf-8') as w:
             w.write(header + '\n\n')
 
             for index, keywordclass in enumerate(keywordclasses):
+                if sections:
+                    w.write('# Python3 {}\n'.format(sections[index]))
+
                 w.write('keywordclass{}.python3=\\\n'.format(index))
 
                 line_length = 0
