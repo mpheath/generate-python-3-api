@@ -1,8 +1,8 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 # Author : Michael Heath
 # Github : https://github.com/mpheath/generate-python-3-api
 # Home   : http://users.tpg.com.au/mpheath/gen_python_3_api
-# Licence: GPLv3
+# License: GPLv3
 # Python : 3.2 to 3.9 or later
 # Version: 1.5
 
