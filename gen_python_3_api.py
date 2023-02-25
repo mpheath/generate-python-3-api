@@ -1734,9 +1734,23 @@ class Calltips():
             for item in keyword.kwlist:
                 _add_api([item])
 
+            if sys.version_info >= (3, 9):
+                for item in keyword.softkwlist:
+                    if item == '_':
+                        continue
+
+                    _add_api([item])
+
         # Add keywords to keywordclass.
         for item in keyword.kwlist:
             keywordclass0.add(item)
+
+        if sys.version_info >= (3, 9):
+            for item in keyword.softkwlist:
+                if item == '_':
+                    continue
+
+                keywordclass0.add(item)
 
         # Add to api and keywordclasses by inspecting the modules and members.
         for module, module_object in modules:
